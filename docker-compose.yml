@@ -1,0 +1,30 @@
+version: '3'
+services:
+  vue-app1:
+    container_name: chavesdayron-tarea2-3031
+    build: ./vue-project   
+    environment:
+      - PORT=5050 
+    networks:
+      - loadbalancing
+  vue-app2:
+    container_name: chavesdayron-tarea2-3031-2
+    build: ./vue-project   
+    environment:
+      - PORT=5050 
+    networks:
+      - loadbalancing
+      
+  nginx:
+    container_name: nginx_balancer
+    build: ./nginx
+    ports:
+      - "80:80"
+    networks:
+      - loadbalancing
+    depends_on:
+      - vue-app1
+      - vue-app2
+      
+networks:
+  loadbalancing:
